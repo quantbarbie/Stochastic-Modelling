@@ -134,3 +134,67 @@ This section focuses on analyzing and calibrating volatility smile data using va
 
 ---
 
+# Part 3. Static Replication and Option Pricing Models
+
+## Overview
+This section explores static replication using multiple option pricing models, including Black-Scholes, Bachelier, and SABR models. The analysis focuses on SPX and SPY options, leveraging SABR-calibrated parameters and volatility smiles from previous work. The results highlight integrated variance and the accuracy of model-based pricing.
+
+---
+
+## Key Components
+
+### 1. Data Input and Preparation
+- **Inputs**:
+  - SPX and SPY option data with bid-ask prices and strike prices.
+  - SABR model parameters (α, β, ρ, ν) for SPX and SPY at T = 45 days.
+- **Objective**: Process market data to extract discount factors, forward prices, and implied volatilities.
+
+---
+
+### 2. Option Pricing Models
+- **Models Used**:
+  - **Black-Scholes**: Lognormal pricing model for European options.
+  - **Bachelier**: Normal pricing model for options.
+  - **SABR**: Stochastic volatility model calibrated to market-implied volatilities.
+- **Implementation**:
+  - Calculate ATM volatilities using Black-Scholes and Bachelier models.
+  - Integrate model-specific pricing functions to estimate variance and validate results.
+
+---
+
+### 3. Integrated Variance Estimation
+- **Process**:
+  - Use market data to calculate implied volatilities for both SPX and SPY options.
+  - Estimate integrated variance based on the models and compare results for consistency.
+- **Key Functions**:
+  - Static replication integrates the option pricing models over strike prices to estimate total variance.
+
+---
+
+### 4. Static Replication Pricing
+- **Objective**: Price a custom contract defined by a payoff function \( h(K) = K^{1/3} + 1.5 \ln(K) + 10 \).
+- **Methodology**:
+  1. Define a second-order derivative of the payoff function \( h''(K) \).
+  2. Integrate the product of \( h''(K) \) and model-based option prices across all strike prices.
+  3. Adjust for \( h(S_0) \) to derive final prices.
+
+---
+
+## Key Insights
+
+### ATM Volatility
+- **Black-Scholes**: Provides consistent volatility estimates for SPX and SPY options.
+- **Bachelier**: Exhibits significantly higher volatility levels due to the normal distribution assumption.
+
+### Static Replication
+- The static replication prices are slightly lower than the payoff function value \( h(S_0) \), as expected from theoretical constraints.
+- All models produce consistent pricing, with minimal variance across methods.
+
+### SABR Model
+- SABR-calibrated parameters (α, β, ρ, ν) provide flexibility to capture volatility smiles and term structure.
+- The model effectively integrates stochastic volatility effects into static replication.
+
+---
+
+## Conclusion
+This project validates static replication using Black-Scholes, Bachelier, and SABR models. The results confirm that these models are consistent with theoretical expectations and provide robust pricing for SPX and SPY options. The integration of SABR parameters enhances the analysis by incorporating market volatility dynamics.
